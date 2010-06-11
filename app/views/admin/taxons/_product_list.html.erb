@@ -1,0 +1,44 @@
+<h3>Sort products in this category by dragging:</h3>
+<ul id="products_ul">
+<% @taxon.product_taxons.each do |pt| %>
+  <li id="product_taxons_<%=pt.id%>">
+   <%= h pt.product.name %>
+  </li>
+<% end %>
+</ul>
+
+
+<% content_for :head do %>
+  <script type="text/javascript">
+    jQuery(document).ready(function(){
+      $('#products_ul').sortable(
+        { items:'li',
+          containment:'parent',
+          axis:'y',
+          update: function(){
+            $.post('/admin/taxons/reorder_products/<%=@taxon.id%>',
+                   '_method=put&'+$(this).sortable('serialize'))
+          }
+        }
+      )
+    });
+  </script>
+
+  <style type="text/css">
+    ul#products_ul {
+      list-type: none;
+      margin-left: 20px;
+      border: 1px solid #DDD;
+    }
+
+    ul#products_ul li {
+      border: 1px solid #CCC;
+      background-color: #F9F9F9;
+      list-style: none;
+      margin-left: 0;
+      padding: 3px;
+    }
+  
+  </style>
+
+<% end %>
