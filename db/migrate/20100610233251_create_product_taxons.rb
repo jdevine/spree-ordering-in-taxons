@@ -12,7 +12,8 @@ class CreateProductTaxons < ActiveRecord::Migration
     ActiveRecord::Base.connection.
      execute("select product_id, taxon_id from products_taxons order by taxon_id, product_id").
      each do |res|
-      p = ProductTaxon.new(res);
+      #p = ProductTaxon.new(res);
+      p = ProductTaxon.new(:product_id=>res["product_id"].to_i, :taxon_id=>res["taxon_id"].to_i)
       p.save
     end
   
