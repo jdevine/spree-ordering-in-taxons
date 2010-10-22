@@ -1,6 +1,6 @@
 <h3>Sort products in this category by dragging:</h3>
 <ul id="products_ul">
-<% @taxon.product_taxons.each do |pt| %>
+<% @taxon.product_taxons.all(:include => 'product', :conditions => 'products.deleted_at IS NULL').each do |pt| %>
   <li id="product_taxons_<%=pt.id%>">
    <%= h pt.product.name %>
   </li>
