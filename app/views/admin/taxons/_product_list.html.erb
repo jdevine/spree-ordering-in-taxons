@@ -2,6 +2,7 @@
 <ul id="products_ul">
 <% @taxon.product_taxons.all(:include => 'product', :conditions => 'products.deleted_at IS NULL').each do |pt| %>
   <li id="product_taxons_<%=pt.id%>">
+   <span class="handle">≡</span>
    <%= h pt.product.name %>
   </li>
 <% end %>
@@ -15,6 +16,7 @@
         { items:'li',
           containment:'parent',
           axis:'y',
+          handle:'.handle',
           update: function(){
             $.post('/admin/taxons/reorder_products/<%=@taxon.id%>',
                    '_method=put&'+$(this).sortable('serialize'))
@@ -39,6 +41,13 @@
       padding: 3px;
     }
   
+    #products_ul li .handle {
+      display: inline-block;
+      color: silver;
+      width: 1.5em;
+      cursor: row-resize;
+      text-align: center;
+    }
   </style>
 
 <% end %>
